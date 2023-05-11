@@ -1,11 +1,15 @@
 import logging
 from abc import ABC
 from datetime import datetime
+from typing import Type, List
+
+from selenium import webdriver
 
 import models.schemas as rpc
 
 from db import new_session
 from models import Request, Link
+from utils.selen_driver import get_webdriver
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -19,10 +23,16 @@ class Base(ABC):
     def __init__(self, request: str):
         self.request = request
 
-    def load(self):
-        return NotImplementedError
+    def load(self) -> int:
+        with new_session() as session:
+            self.save_request()
+            driver = get_webdriver()
+            driver.get(f"{self.base_url}/search?q={self.request}")
+            links = self.get_links(driver)
+            cnt = self.extract(links, session)
+        return cnt
 
-    def save_request(self):
+    def save_request(self) -> None:
         with new_session() as session:
             now = datetime.now()
             instance = rpc.RequestCreate(
@@ -31,8 +41,8 @@ class Base(ABC):
             )
             session.add(Request(**instance.dict()))
 
-    def get_links(self, driver):
-        return NotImplementedError
+    def get_links(self, driver: webdriver) -> List[str]:
+        raise NotImplementedError
 
-    def extract(self, links, _session):
-        return NotImplementedError
+    def extract(self, links, _session) -> int:
+        raise NotImplementedError

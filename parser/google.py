@@ -24,15 +24,6 @@ def interceptor(request):
 class Google(Base):
     base_url = "https://google.com/"
 
-    def load(self) -> int:
-        with new_session() as session:
-            self.save_request()
-            driver = get_webdriver()
-            driver.get(f"{self.base_url}/search?q={self.request}")
-            links = self.get_links(driver)
-            cnt = self.extract(links, session)
-        return cnt
-
     def get_links(self, driver) -> list:
         result = []
         links = driver.find_elements(By.CLASS_NAME, "yuRUbf")
