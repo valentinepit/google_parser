@@ -2,9 +2,12 @@ from contextlib import contextmanager
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from app.settings import settings
 
-# url = "sqlite:///./tags.db"
-url = "postgresql://postgres:postgres@localhost:5432/links"
+url = f"postgresql://{settings.db_user}" \
+      f":{settings.db_password}" \
+      f"@{settings.db_host}" \
+      f":{settings.db_port}/links"
 engine = create_engine(url)
 
 Session = sessionmaker(autoflush=False, bind=engine)

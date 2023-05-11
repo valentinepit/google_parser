@@ -1,15 +1,16 @@
 import logging
 from abc import ABC
 from datetime import datetime
-from typing import Type, List
+from typing import List
 
 from selenium import webdriver
 
-import models.schemas as rpc
+from app.models import schemas as rpc
 
 from db import new_session
-from models import Request, Link
-from utils.selen_driver import get_webdriver
+from app.models.models import Request, Link
+from app.utils.selen_driver import get_webdriver
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

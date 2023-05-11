@@ -1,13 +1,9 @@
 import logging
 
-
-from db import new_session
-
 from selenium.webdriver.common.by import By
 
-import models.schemas as rpc
-from parser.base import Base
-from utils.selen_driver import get_webdriver
+from app .models import schemas as rpc
+from app.parser.base import Base
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -35,6 +31,7 @@ class Google(Base):
         cnt = 0
         request = _session.query(self.request_table).order_by(self.request_table.id.desc()).first()
         for link in links:
+            print(link)
             instance = rpc.LinkCreate(
                 link=link,
                 request_id=request.id

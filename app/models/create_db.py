@@ -1,6 +1,6 @@
 from sqlalchemy_utils import database_exists, create_database
 
-import models
+from app import models
 from db import engine
 
 
