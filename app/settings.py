@@ -14,8 +14,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = "../.env"
-        # env_file = find_dotenv(".env")
-        # env_file = os.path.join(os.getcwd(), '.env')
         env_file_encoding = 'utf-8'
 
 

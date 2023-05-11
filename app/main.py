@@ -1,14 +1,13 @@
 import uvicorn as uvicorn
 from fastapi import FastAPI
 
+from app.models.create_db import create_db
 from app.models.models import Link
 from app.parser.google import Google
-from db import new_session
-
-
+from .db import new_session
 
 app = FastAPI()
-
+create_db()
 
 @app.get("/")
 async def read_root():
@@ -18,7 +17,8 @@ async def read_root():
 @app.get("/request/{request}")
 async def read_item(request: str):
     parser = Google(request)
-    return parser.load()
+    cnt = parser.load()
+    return cnt
 
 
 @app.get("/links/{request_id}")
@@ -30,3 +30,4 @@ async def read_item(request_id: int):
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
+

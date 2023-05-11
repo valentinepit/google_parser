@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 def get_webdriver_remote():
     try:
         options = webdriver.ChromeOptions()
-        # options.add_argument("headless")
+        options.add_argument("headless")
         options.add_argument("window-size=1920x935")
         options.add_argument("--kiosk")
         options.add_argument("--log-level=3")
@@ -27,21 +27,21 @@ def get_webdriver_remote():
 
 
 def get_webdriver():
+    options = webdriver.ChromeOptions()
+    options.add_argument("headless")
+    options.add_argument("window-size=1920x935")
+    options.add_argument("--kiosk")
+    options.add_argument("--log-level=3")
     try:
-        options = webdriver.ChromeOptions()
-        # options.add_argument("headless")
-        options.add_argument("window-size=1920x935")
-        options.add_argument("--kiosk")
-        options.add_argument("--log-level=3")
-        driver = webdriver.Chrome(
-            # command_executor="http://chromedriver:4444/wd/hub",
-            # desired_capabilities=DesiredCapabilities.CHROME,
+        driver = webdriver.Remote(
+            command_executor="http://chromedriver:4444/wd/hub",
+            desired_capabilities=DesiredCapabilities.CHROME,
             options=options,
         )
     except WebDriverException as e:
         logger.info(f"Can't get webdriver: {e}")
         return
-    # driver.request_interceptor = interceptor
+    driver.request_interceptor = interceptor
     return driver
 
 

@@ -7,7 +7,7 @@ from selenium import webdriver
 
 from app.models import schemas as rpc
 
-from db import new_session
+from app.db import new_session
 from app.models.models import Request, Link
 from app.utils.selen_driver import get_webdriver
 

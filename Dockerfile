@@ -1,13 +1,13 @@
-FROM python:alpine3.10
+FROM python:3.8 as builder
 
-RUN apk add python3-dev build-base
+RUN mkdir app
+WORKDIR app
 
-RUN mkdir /app
-WORKDIR /app
+RUN pip install --upgrade pip
 
-COPY . /app
-RUN gcc -v
-RUN pip install pipenv
-RUN pipenv install
+COPY app/requirements.txt .
+RUN pip install -r requirements.txt
 
-ENTRYPOINT ["pipenv", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+COPY app .
+
+

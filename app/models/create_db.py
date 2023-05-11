@@ -1,15 +1,17 @@
+import logging
+
 from sqlalchemy_utils import database_exists, create_database
 
-from app import models
-from db import engine
+from app.models.models import Base
+from app.db import engine
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def create_db():
     if not database_exists(engine.url):
         create_database(engine.url)
-    print(f" database created: {database_exists(engine.url)}")
-
-
-create_db()
-models.Base.metadata.create_all(bind=engine)
+        Base.metadata.create_all(bind=engine)
+    logger.info(f" database created: {database_exists(engine.url)}")
 
