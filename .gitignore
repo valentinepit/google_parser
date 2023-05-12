@@ -1,1 +1,9 @@
-/tags.db
+.env
+*.pyc
+*.pyo
+env/
+venv/
+.venv/
+.pytest_cache/
+.idea/
+*.xml
