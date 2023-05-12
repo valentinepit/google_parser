@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, ForeignKey, Integer, String
 from sqlalchemy.orm import DeclarativeBase, relationship
 
 
@@ -16,10 +16,9 @@ class Request(Base):
 
 
 class Link(Base):
-    __tablename__ = 'link'
+    __tablename__ = "link"
     id = Column(Integer, primary_key=True, autoincrement=True)
     request_id = Column(Integer, ForeignKey("request.id"))
     link = Column(String)
 
     request = relationship("Request", back_populates="link")
-

@@ -23,10 +23,7 @@ class Google(Base):
         cnt = 0
         request = _session.query(self.request_table).order_by(self.request_table.id.desc()).first()
         for link in links:
-            instance = rpc.LinkCreate(
-                link=link,
-                request_id=request.id
-            )
+            instance = rpc.LinkCreate(link=link, request_id=request.id)
             _session.add(self.link_table(**(instance.dict())))
             cnt += 1
         logger.info(f"For {self.request} saved {cnt} links")
