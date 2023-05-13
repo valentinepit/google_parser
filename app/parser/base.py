@@ -1,5 +1,5 @@
 import logging
-from abc import ABC
+from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import List
 
@@ -37,8 +37,10 @@ class Base(ABC):
             instance = rpc.RequestCreate(created_at=now.strftime("%D-%M-%Y"), text=self.request)
             session.add(Request(**instance.dict()))
 
+    @abstractmethod
     def get_links(self, driver: webdriver) -> List[str]:
         raise NotImplementedError
 
+    @abstractmethod
     def extract(self, links, _session) -> int:
         raise NotImplementedError
